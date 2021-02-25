@@ -1,0 +1,21 @@
+{
+    "nameApp": "mwt",
+    "datas": [{
+            "nombre": "roberto 1",
+            "edad": "31"
+        },
+        {
+            "nombre": "roberto 2",
+            "edad": "31"
+        },
+        {
+            "nombre": "roberto 3",
+            "edad": "31"
+        },
+        {
+            "nombre": "roberto 4",
+            "edad": "31"
+        }
+    ]
+
+}
