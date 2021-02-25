@@ -12,19 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -34,15 +22,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -55,23 +34,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
-
-  final datos = [
-    'Roberto 1',
-    'Roberto 2',
-    'Roberto 3',
-    'Roberto 4',
-    'Roberto 5',
-    'Roberto 6'
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -84,41 +49,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _lista() {
-    dataProvider.datosJson().then((response) {
-      print('datos desde la view');
-      print(response);
-    });
-
-    return ListView(
-      children: listItems(),
+    return FutureBuilder(
+      future: dataProvider.datosJson(),
+      initialData: [],
+      builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+        print(snapshot.data);
+        return ListView(
+          children: listItems(snapshot.data),
+        );
+      },
     );
   }
 
-  List<Widget> listItems() {
-    return [
-      ListTile(title: Text('Future 1')),
-      Divider(),
-      ListTile(title: Text('Future 2')),
-      Divider(),
-      ListTile(title: Text('Future 3')),
-      Divider(),
-    ];
-  }
-
-  List<Widget> listaDatos() {
-    var widgets = datos.map((item) {
-      return Column(
-        children: [
-          ListTile(
-            title: Text(item),
-            subtitle: Text('Hola Subtitulo: ' + item),
-            leading: Icon(Icons.people),
-            trailing: Icon(Icons.keyboard_arrow_right),
-          ),
-          Divider(),
-        ],
+  List<Widget> listItems(List<dynamic> data) {
+    final List<Widget> datosList = [];
+    data.forEach((res) {
+      final widget = ListTile(
+        title: Text(res['nombre']),
+        leading: Icon(Icons.account_circle, color: Colors.red),
+        trailing: Icon(Icons.keyboard_arrow_right, color: Colors.red),
+        onTap: () {},
       );
-    }).toList();
-    return widgets;
+      datosList..add(widget)..add(Divider());
+    });
+    return datosList;
   }
 }
