@@ -84,8 +84,25 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _lista() {
-    print('Datos View');
-    print(dataProvider.datos);
+    dataProvider.datosJson().then((response) {
+      print('datos desde la view');
+      print(response);
+    });
+
+    return ListView(
+      children: listItems(),
+    );
+  }
+
+  List<Widget> listItems() {
+    return [
+      ListTile(title: Text('Future 1')),
+      Divider(),
+      ListTile(title: Text('Future 2')),
+      Divider(),
+      ListTile(title: Text('Future 3')),
+      Divider(),
+    ];
   }
 
   List<Widget> listaDatos() {

@@ -1,21 +1,19 @@
 import 'dart:convert';
-
 import 'package:flutter/services.dart' show rootBundle;
 
 class DataProvider {
   List<dynamic> datos = [];
 
   DataProvider() {
-    datosJson();
+    // datosJson();
   }
-  datosJson() {
-    rootBundle.loadString('data/data.json').then((data) {
-      // print(data);
 
-      Map dataMap = json.decode(data);
-      print(dataMap['nameApp']);
-      datos = dataMap['datas'];
-    });
+  Future<List<dynamic>> datosJson() async {
+    final response = await rootBundle.loadString('data/data.json');
+    Map dataMap = json.decode(response);
+    datos = dataMap['datas'];
+
+    return datos;
   }
 }
 
